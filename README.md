@@ -1,6 +1,14 @@
-# secrets-manager
-manages secrets in kubernetes
+# Secrets Manager
 
+This repository provides the secrets manager for PSP.
 
-## How to run
-- `skaffold dev`: this will start the project
+## Usage 
+
+For the first time setup, execute `bootstrap.sh`. Afterwards, you can use `skaffold dev`.
+
+## Contributing 
+
+### Updating 
+
+You update HashiCorp Vault by executing `helm dependency update` in the `helm` directory.
+

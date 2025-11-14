@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-
-kubectl apply -f ./namespace.yaml
+set -e
+helm repo add hashicorp https://helm.releases.hashicorp.com

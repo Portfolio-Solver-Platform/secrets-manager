@@ -1,34 +1,32 @@
 apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
-  name: secrets-manager-skaffold
+  name: encryption-skaffold
 
-deploy:
-  helm:
-    releases:
-      - name: secrets-manager
-        namespace: secrets-manager
-        createNamespace: true
-        repo: 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
-        remoteChart: infisical
-        wait: true
-        
 profiles:
-- name: dev
-  activation:
-    - command: dev
-  patches:
-    - op: add
-      path: /deploy/helm/releases/0/valuesFiles
-      value:
-        - helm/values.yaml
+  - name: dev
+    activation:
+      - command: dev
+    deploy:
+      helm:
+        releases:
+          - name: secrets-manager
+            chartPath: helm
+            namespace: secrets-manager
+            createNamespace: true
+            valuesFiles:
+              - helm/values-dev.yaml
 
-- name: prod
-  activation:
-    - command: prod
-  patches:
-    - op: add
-      path: /deploy/helm/releases/0/valuesFiles
-      value:
-        - helm/values.yaml
-        - helm/values-prod.yaml
+  - name: prod
+    deploy:
+      helm:
+        releases:
+          - name: secrets-manager
+            chartPath: helm
+            namespace: secrets-manager
+            createNamespace: true
+            valuesFiles:
+              - helm/values-prod.yaml
+            wait: true
+            upgradeOnChange: true
+

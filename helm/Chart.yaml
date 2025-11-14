@@ -1,8 +1,11 @@
 apiVersion: v2
-name: secrets-manager
+name: encryption
+description: Encrypts traffic on the platform
+type: application
 version: 0.1.0
+appVersion: "0.1.0"
 
 dependencies:
-  - name: infisical
-    version: "0.4.2" 
-    repository: 'https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/'
+  - name: vault
+    version: 0.31.0
+    repository: "@hashicorp"
