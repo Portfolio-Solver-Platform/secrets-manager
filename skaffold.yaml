@@ -11,9 +11,8 @@ profiles:
       helm:
         releases:
           - name: secrets-manager
-            chartPath: helm
+            chartPath: helm/
             namespace: secrets-manager
-            createNamespace: true
             valuesFiles:
               - helm/values-dev.yaml
 
@@ -24,7 +23,6 @@ profiles:
           - name: secrets-manager
             chartPath: helm
             namespace: secrets-manager
-            createNamespace: true
             valuesFiles:
               - helm/values-prod.yaml
             wait: true

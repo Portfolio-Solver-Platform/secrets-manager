@@ -1,11 +1,11 @@
 apiVersion: v2
-name: encryption
-description: Encrypts traffic on the platform
+name: secrets-manager
+description: Handles secrets on the platform
 type: application
 version: 0.1.0
 appVersion: "0.1.0"
 
 dependencies:
-  - name: vault
-    version: 0.31.0
-    repository: "@hashicorp"
+  - name: openbao
+    version: 0.19.2
+    repository: "@openbao"

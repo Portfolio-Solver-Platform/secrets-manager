@@ -1,11 +1,14 @@
-global:
-  tlsDisable: true
+# global:
+#   tlsDisable: true
 
 server:
-  dataStorage:
+  # extraArgs: "-dev"
+  dev:
     enabled: true
-  auditStorage:
-    enabled: true
+  # dataStorage:
+  #   enabled: false
+  # auditStorage:
+  #   enabled: true
 
-injector:
-  enabled: true
+# injector:
+#   enabled: true
