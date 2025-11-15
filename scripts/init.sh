@@ -5,7 +5,7 @@
 set -e  # Exit on error
 
 # Default path for dev environment
-DEFAULT_DEV_PATH="$HOME/.psp/secrets-manager/keys.txt"
+DEFAULT_DEV_PATH=".cache/keys.txt"
 
 # Check if environment argument is provided
 if [ $# -eq 0 ]; then
