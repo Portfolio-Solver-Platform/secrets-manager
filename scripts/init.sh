@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Initialize Vault and save keys
 
 set -e  # Exit on error
