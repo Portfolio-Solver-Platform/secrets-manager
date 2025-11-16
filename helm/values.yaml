@@ -1,10 +1,13 @@
 # global:
 #   tlsDisable: true
 
-server:
+ui:
+  enabled: true
+
+# server:
   # extraArgs: "-dev"
-  dev:
-    enabled: true
+  # dev:
+  #   enabled: true
   # dataStorage:
   #   enabled: false
   # auditStorage:

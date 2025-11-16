@@ -1,2 +1,5 @@
+server:
+  dev:
+    enabled: true
 # injector:
 #   affinity: null # Allow multiple pods per node (since minikube only has one node)
