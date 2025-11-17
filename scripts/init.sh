@@ -41,9 +41,6 @@ else
     INIT_FILE="$2"
 fi
 
-# Get directory from file path and create it
-INIT_DIR=$(dirname "$INIT_FILE")
-mkdir -p "$INIT_DIR"
 
 echo "Environment: $ENVIRONMENT"
 echo "Initializing Vault and saving keys to: $INIT_FILE"
@@ -54,7 +51,12 @@ function kube_exec {
 }
 
 # Initialize vault and save output
-kube_exec bao operator init > "$INIT_FILE"
+INIT_OUTPUT=$(kube_exec bao operator init)
+
+# Save output to file
+INIT_DIR=$(dirname "$INIT_FILE")
+mkdir -p "$INIT_DIR"
+echo "$INIT_OUTPUT" > "$INIT_FILE"
 
 echo "========================================="
 echo "Vault initialized successfully!"
