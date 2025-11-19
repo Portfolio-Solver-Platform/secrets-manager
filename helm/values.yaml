@@ -1,15 +1,17 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: infisical-secrets
-type: Opaque
-stringData:
-  AUTH_SECRET: 91a572ba8c25d401126622de42daa837
-  ENCRYPTION_KEY: LAOMUZ4V4KhF0gGfmLht75jV89ARAvHE2dHCoTVys4w=
-  SITE_URL: http://app.infisical.local
+# global:
+#   tlsDisable: true
 
+ui:
+  enabled: true
 
+# server:
+  # extraArgs: "-dev"
+  # dev:
+  #   enabled: true
+  # dataStorage:
+  #   enabled: false
+  # auditStorage:
+  #   enabled: true
 
-ingress:
-  nginx:
-    enabled: true
+# injector:
+#   enabled: true

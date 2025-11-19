@@ -1,0 +1,2 @@
+injector:
+  affinity: null # Allow multiple pods per node (since we currently only use one node on ucloud)
