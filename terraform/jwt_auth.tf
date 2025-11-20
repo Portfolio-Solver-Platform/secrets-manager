@@ -10,6 +10,8 @@ resource "vault_jwt_auth_backend" "psp" {
 
 locals {
   jwt_psp = vault_jwt_auth_backend.psp
+  scope = "artifact-registry:write"
+  secure_scopes = join(",", [local.scope, "${local.scope} *", "* ${local.scope}", "* ${local.scope} *"])
 }
 
 resource "vault_jwt_auth_backend_role" "artifact-write" {
@@ -19,8 +21,9 @@ resource "vault_jwt_auth_backend_role" "artifact-write" {
 
   user_claim            = "sub"
   role_type             = "jwt"
+  bound_claims_type = "glob"
   bound_claims = {
-    scope = "artifact-registry:write"
+    scope = local.secure_scopes
   }
 }
 
