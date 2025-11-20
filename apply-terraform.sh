@@ -8,7 +8,7 @@ if [ "$1" = "dev" ]; then
   ROOT_TOKEN_PATH="${ROOT_TOKEN_PATH:-./.cache/keys.txt}"
   SECRETS_MANAGER_URL="${SECRETS_MANAGER_URL:-http://secrets.local}"
   TOKEN_NAME="${TOKEN_NAME:-dev-terraform}"
-  JWT_ISSUER="${JWT_ISSUER:-http://keycloak.local/realms/psp}"
+  JWT_ISSUER="${JWT_ISSUER:-http://keycloak.local:8080/realms/psp}"
   JWKS_URL="${JWKS_URL:-http://keycloak-service.keycloak.svc.cluster.local:8080/realms/psp/protocol/openid-connect/certs}"
 fi
 
