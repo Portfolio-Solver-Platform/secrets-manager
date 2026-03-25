@@ -8,4 +8,4 @@ appVersion: "0.1.0"
 dependencies:
   - name: openbao
     version: 0.19.2
-    repository: "@openbao"
+    repository: "https://openbao.github.io/openbao-helm"
