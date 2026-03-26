@@ -1,17 +1,36 @@
-# global:
-#   tlsDisable: true
+
+secrets-manager-transit:
+  serviceName: secrets-manager-transit
 
 ui:
   enabled: true
 
-# server:
-  # extraArgs: "-dev"
-  # dev:
-  #   enabled: true
-  # dataStorage:
-  #   enabled: false
-  # auditStorage:
-  #   enabled: true
+server:
+  extraSecretEnvironmentVars:
+    - envName: VAULT_TOKEN
+      secretName: transit-unseal-secret
+      secretKey: VAULT_TOKEN
 
-# injector:
-#   enabled: true
+  ha:
+    enabled: true
+    config: |
+      ui = true
+
+      listener "tcp" {
+        tls_disable = 1
+        address = "[::]:8200"
+        cluster_address = "[::]:8201"
+      }
+
+      storage "raft" {
+        path = "/vault/data"
+      }
+
+      # Auto-unseal
+      seal "transit" {
+        address    = "http://secrets-manager-transit.secrets-manager.svc.cluster.local:8200"
+        key_name   = "k8s-unseal-key"
+        mount_path = "transit/"
+        # The token is automatically picked up from the VAULT_TOKEN env var
+      }
+

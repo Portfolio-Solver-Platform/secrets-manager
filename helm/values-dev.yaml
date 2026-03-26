@@ -1,3 +1,6 @@
+secrets-manager-transit:
+  host: host.minikube.internal
+
 server:
   dev:
     enabled: true
