@@ -2,35 +2,41 @@
 secretsManagerTransit:
   serviceName: secrets-manager-transit
 
-ui:
-  enabled: true
+openbao:
+  ui:
+    enabled: true
 
-server:
-  extraSecretEnvironmentVars:
+  server:
+    standalone:
+      enabled: false
+
+    extraSecretEnvironmentVars:
     - envName: VAULT_TOKEN
       secretName: transit-unseal-secret
       secretKey: VAULT_TOKEN
 
-  ha:
-    enabled: true
-    config: |
-      ui = true
+    ha:
+      enabled: true
+      raft:
+        enabled: true
+        config: |
+          ui = true
 
-      listener "tcp" {
-        tls_disable = 1
-        address = "[::]:8200"
-        cluster_address = "[::]:8201"
-      }
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
 
-      storage "raft" {
-        path = "/vault/data"
-      }
+          storage "raft" {
+            path = "/openbao/data"
+          }
 
-      # Auto-unseal
-      seal "transit" {
-        address    = "http://secrets-manager-transit.secrets-manager.svc.cluster.local:8200"
-        key_name   = "k8s-unseal-key"
-        mount_path = "transit/"
-        # The token is automatically picked up from the VAULT_TOKEN env var
-      }
+          # Auto-unseal
+          seal "transit" {
+            address    = "http://secrets-manager-transit.secrets-manager.svc.cluster.local:8200"
+            key_name   = "k8s-unseal-key"
+            mount_path = "transit/"
+            # The token is automatically picked up from the VAULT_TOKEN env var
+          }
 
