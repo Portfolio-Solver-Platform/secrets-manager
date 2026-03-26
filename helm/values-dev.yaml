@@ -1,4 +1,4 @@
-secrets-manager-transit:
+secretsManagerTransit:
   host: host.minikube.internal
 
 server:

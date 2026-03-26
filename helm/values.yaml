@@ -1,5 +1,5 @@
 
-secrets-manager-transit:
+secretsManagerTransit:
   serviceName: secrets-manager-transit
 
 ui:
