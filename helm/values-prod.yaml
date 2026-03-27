@@ -1,7 +1,0 @@
-secretsManagerTransit:
-  host: host.minikube.internal
-
-openbao:
-  server:
-    ha:
-      replicas: 3

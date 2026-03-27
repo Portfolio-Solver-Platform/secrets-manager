@@ -1,12 +1,18 @@
 
 secretsManagerTransit:
   serviceName: secrets-manager-transit
+  host: host.minikube.internal
 
 openbao:
   ui:
     enabled: true
 
+  injector:
+    enabled: true
+    affinity: "" # We only have one node, so disable affinity rule
+
   server:
+    affinity: "" # We only have one node, so disable affinity rule
     standalone:
       enabled: false
 
@@ -17,6 +23,7 @@ openbao:
 
     ha:
       enabled: true
+      replicas: 3
       raft:
         enabled: true
         config: |
@@ -30,6 +37,17 @@ openbao:
 
           storage "raft" {
             path = "/openbao/data"
+
+            # Auto-join configured with the correct headless service DNS
+            retry_join {
+              leader_api_addr = "http://secrets-manager-openbao-0.secrets-manager-openbao-internal.secrets-manager.svc.cluster.local:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://secrets-manager-openbao-1.secrets-manager-openbao-internal.secrets-manager.svc.cluster.local:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://secrets-manager-openbao-2.secrets-manager-openbao-internal.secrets-manager.svc.cluster.local:8200"
+            }
           }
 
           # Auto-unseal
