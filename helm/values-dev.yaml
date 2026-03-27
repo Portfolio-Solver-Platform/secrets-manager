@@ -5,5 +5,5 @@ openbao:
   server:
     ha:
       replicas: 1
-    # dev:
-    #   enabled: true # Automatic init and unseal. root token = "root"
+    dev:
+      enabled: true # Automatic init and unseal. root token = "root"
