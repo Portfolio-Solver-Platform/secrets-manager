@@ -1,17 +1,60 @@
-# global:
-#   tlsDisable: true
 
-ui:
-  enabled: true
+secretsManagerTransit:
+  serviceName: secrets-manager-transit
+  host: host.minikube.internal
 
-# server:
-  # extraArgs: "-dev"
-  # dev:
-  #   enabled: true
-  # dataStorage:
-  #   enabled: false
-  # auditStorage:
-  #   enabled: true
+openbao:
+  ui:
+    enabled: true
 
-# injector:
-#   enabled: true
+  injector:
+    enabled: true
+    affinity: "" # We only have one node, so disable affinity rule
+
+  server:
+    affinity: "" # We only have one node, so disable affinity rule
+    standalone:
+      enabled: false
+
+    extraSecretEnvironmentVars:
+    - envName: VAULT_TOKEN
+      secretName: transit-unseal-secret
+      secretKey: VAULT_TOKEN
+
+    ha:
+      enabled: true
+      replicas: 3
+      raft:
+        enabled: true
+        config: |
+          ui = true
+
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+          }
+
+          storage "raft" {
+            path = "/openbao/data"
+
+            # Auto-join configured with the correct headless service DNS
+            retry_join {
+              leader_api_addr = "http://secrets-manager-openbao-0.secrets-manager-openbao-internal.secrets-manager.svc.cluster.local:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://secrets-manager-openbao-1.secrets-manager-openbao-internal.secrets-manager.svc.cluster.local:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://secrets-manager-openbao-2.secrets-manager-openbao-internal.secrets-manager.svc.cluster.local:8200"
+            }
+          }
+
+          # Auto-unseal
+          seal "transit" {
+            address    = "http://secrets-manager-transit.secrets-manager.svc.cluster.local:8200"
+            key_name   = "k8s-unseal-key"
+            mount_path = "transit/"
+            # The token is automatically picked up from the VAULT_TOKEN env var
+          }
+
