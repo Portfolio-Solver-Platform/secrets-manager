@@ -1,7 +1,7 @@
 apiVersion: skaffold/v4beta13
 kind: Config
 metadata:
-  name: encryption-skaffold
+  name: secrets-manager-skaffold
 
 profiles:
   - name: dev
@@ -21,10 +21,8 @@ profiles:
       helm:
         releases:
           - name: secrets-manager
-            chartPath: helm
+            chartPath: helm/
             namespace: secrets-manager
-            valuesFiles:
-              - helm/values-prod.yaml
             wait: true
             upgradeOnChange: true
 
