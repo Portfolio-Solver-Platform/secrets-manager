@@ -13,7 +13,7 @@ resource "vault_kubernetes_auth_backend_role" "tf_controller_role" {
   bound_service_account_names      = ["tf-runner"]
   bound_service_account_namespaces = ["flux-system"]
   token_policies                   = ["flux-admin-policy"]
-  token_ttl                        = 3600
+  token_ttl                        = 600 # 10 minutes
 }
 
 data "vault_policy_document" "flux_admin_rules" {

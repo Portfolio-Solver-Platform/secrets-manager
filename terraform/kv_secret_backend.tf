@@ -11,11 +11,10 @@ locals {
   }
 }
 
-resource "vault_kv_secret_backend_v2" "example" {
+resource "vault_kv_secret_backend_v2" "kv" {
   mount                = local.mounts.kv.path
-  # max_versions         = 5
-  # delete_version_after = 12600
-  # cas_required         = true
+  max_versions         = 5
+  cas_required         = true
 }
 
 resource "vault_kv_secret_v2" "artifact-write-creds" {

@@ -11,7 +11,7 @@ variable "token" {
 }
 
 variable "token_name" {
-  description = "The name of the token that is used to make the Terraform changes. This name will be associated with all the changes that Terraform makes, so it's useful to set so it's possible to trace exactly what caused the channges. For example, in production, it could be set to the CI/CD execution job."
+  description = "The name of the token that is used to make the Terraform changes. This name will be associated with all the changes that Terraform makes, so it's useful to set so it's possible to trace exactly what caused the changes."
   type        = string
 }
 
