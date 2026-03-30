@@ -1,12 +1,3 @@
-variable "environment" {
-  type        = string
-  description = "Deployment environment"
-
-  validation {
-    condition     = contains(["dev", "prod"], var.environment)
-    error_message = "Environment must be dev or prod."
-  }
-}
 
 variable "url" {
   description = "Base URL to the secrets manager"

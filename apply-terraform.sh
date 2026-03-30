@@ -3,7 +3,6 @@
 if [ "$1" = "dev" ]; then
   echo "Using default development options, unless overridden by environment variables..."
 
-  ENVIRONMENT="${ENVIRONMENT:-dev}"
   ROOT_TOKEN="${ROOT_TOKEN:-"root"}"
   SECRETS_MANAGER_URL="${SECRETS_MANAGER_URL:-http://secrets.local}"
   TOKEN_NAME="${TOKEN_NAME:-dev-terraform}"
@@ -16,7 +15,6 @@ fi
 
 terraform -chdir=terraform init
 terraform -chdir=terraform apply -auto-approve \
-    -var "environment=$ENVIRONMENT"\
     -var "url=$SECRETS_MANAGER_URL"\
     -var "token=$ROOT_TOKEN"\
     -var "token_name=$TOKEN_NAME"\
