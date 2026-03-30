@@ -14,7 +14,7 @@ variable "url" {
 }
 
 variable "token" {
-  description = "The token for the secrets manager"
+  description = "The token for the secrets manager. If set to the empty string, the Kubernetes Service Account is used for authentication instead."
   type        = string
   sensitive   = true
 }
@@ -24,12 +24,3 @@ variable "token_name" {
   type        = string
 }
 
-variable "jwt_issuer" {
-  description = "The issuer of JWT tokens"
-  type        = string
-}
-
-variable "jwks_url" {
-  description = "The url to the jwks"
-  type        = string
-}
