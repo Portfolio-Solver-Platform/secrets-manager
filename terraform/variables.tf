@@ -15,3 +15,9 @@ variable "token_name" {
   type        = string
 }
 
+variable "rabbitmq_username" {
+  description = "The username for RabbitMQ"
+  type        = string
+  default     = "secrets-manager"
+}
+
