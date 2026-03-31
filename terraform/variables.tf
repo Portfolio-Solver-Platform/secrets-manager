@@ -8,6 +8,7 @@ variable "token" {
   description = "The token for the secrets manager. If set to the empty string, the Kubernetes Service Account is used for authentication instead."
   type        = string
   sensitive   = true
+  ephemeral   = true
 }
 
 variable "token_name" {
@@ -32,5 +33,6 @@ variable "auth_manager_bootstrap_admin_password" {
   type        = string
   default     = null
   sensitive   = true
+  ephemeral   = true
 }
 
