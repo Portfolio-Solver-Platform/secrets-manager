@@ -6,6 +6,7 @@ if [ "$1" = "dev" ]; then
   ROOT_TOKEN="${ROOT_TOKEN:-"root"}"
   SECRETS_MANAGER_URL="${SECRETS_MANAGER_URL:-http://secrets.local}"
   TOKEN_NAME="${TOKEN_NAME:-dev-terraform}"
+  AUTH_MANAGER_BOOTSTRAP_ADMIN_PASSWORD="${AUTH_MANAGER_BOOTSTRAP_ADMIN_PASSWORD:-admin}"
 fi
 
 if [ -z "$ROOT_TOKEN" ]; then
@@ -18,3 +19,4 @@ terraform -chdir=terraform apply -auto-approve \
     -var "url=$SECRETS_MANAGER_URL"\
     -var "token=$ROOT_TOKEN"\
     -var "token_name=$TOKEN_NAME"\
+    -var "auth_manager_bootstrap_admin_password=$AUTH_MANAGER_BOOTSTRAP_ADMIN_PASSWORD"\

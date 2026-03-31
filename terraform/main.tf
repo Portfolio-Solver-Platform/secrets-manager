@@ -2,7 +2,11 @@ terraform {
   required_providers {
     vault = {
       source = "hashicorp/vault"
-      version = "5.4.0"
+      version = "5.8.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.8.1"
     }
   }
 }
