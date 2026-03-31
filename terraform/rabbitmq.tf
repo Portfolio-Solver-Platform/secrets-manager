@@ -17,9 +17,15 @@ resource "vault_kv_secret_v2" "rabbitmq_seed_storage" {
 
 resource "vault_rabbitmq_secret_backend" "rabbitmq" {
   connection_uri = "http://rabbitmq.rabbit-mq.svc.cluster.local:15672"
-  username       = var.rabbitmq_username
+  # TODO: Use generated credentials instead
+  # username       = var.rabbitmq_username
+  #
+  # password_wo         = ephemeral.random_password.rabbitmq_seed.result
+  # password_wo_version = 1
 
-  password_wo         = ephemeral.random_password.rabbitmq_seed.result
+  username            = "guest"
+
+  password_wo         = "guest"
   password_wo_version = 1
 
   depends_on = [vault_kv_secret_v2.rabbitmq_seed_storage]
