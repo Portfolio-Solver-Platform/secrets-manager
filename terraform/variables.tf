@@ -21,3 +21,16 @@ variable "rabbitmq_username" {
   default     = "secrets-manager"
 }
 
+variable "auth_manager_bootstrap_admin_username" {
+  description = "The username for the bootstrap admin account in the auth manager"
+  type        = string
+  default     = "bootstrap-admin"
+}
+
+variable "auth_manager_bootstrap_admin_password" {
+  description = "The password for the bootstrap admin account in the auth manager. If set to the empty string, a password will be generated."
+  type        = string
+  default     = null
+  sensitive   = true
+}
+
