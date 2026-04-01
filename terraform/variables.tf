@@ -42,9 +42,16 @@ variable "auth_manager_bootstrap_service_id" {
   default     = "tofu-runner"
 }
 
-
 variable "auth_manager_bootstrap_service_secret" {
   description = "The secret for the bootstrap service in the auth manager. If set to the empty string, a secret will be generated."
+  type        = string
+  default     = null
+  sensitive   = true
+  ephemeral   = true
+}
+
+variable "auth_manager_admin_app_secret" {
+  description = "The secret for the admin app in the auth manager. If set to the empty string, a secret will be generated."
   type        = string
   default     = null
   sensitive   = true
