@@ -1,14 +1,14 @@
 
-resource "vault_kubernetes_auth_backend_role" "tf_controller_role" {
+resource "vault_kubernetes_auth_backend_role" "tofu_runner_secrets_manager_role" {
   backend                          = vault_auth_backend.kubernetes.path
-  role_name                        = "tf-controller-role"
-  bound_service_account_names      = ["tf-runner"]
+  role_name                        = "tofu-runner-secrets-manager-role"
+  bound_service_account_names      = ["tofu-runner-secrets-manager"]
   bound_service_account_namespaces = ["flux-system"]
-  token_policies                   = ["flux-admin-policy"]
+  token_policies                   = ["tofu-runner-secrets-manager-policy"]
   token_ttl                        = 600 # 10 minutes
 }
 
-data "vault_policy_document" "flux_admin_rules" {
+data "vault_policy_document" "tofu_runner_secrets_manager_rules" {
   rule {
     path         = "sys/mounts/*"
     capabilities = ["create", "read", "update", "delete", "list", "sudo"]
@@ -35,7 +35,7 @@ data "vault_policy_document" "flux_admin_rules" {
   }
 }
 
-resource "vault_policy" "flux_admin" {
-  name   = "flux-admin-policy"
-  policy = data.vault_policy_document.flux_admin_rules.hcl
+resource "vault_policy" "tofu_runner_secrets_manager" {
+  name   = "tofu-runner-secrets-manager-policy"
+  policy = data.vault_policy_document.tofu_runner_secrets_manager_rules.hcl
 }
