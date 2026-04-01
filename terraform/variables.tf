@@ -58,3 +58,17 @@ variable "auth_manager_admin_app_secret" {
   ephemeral   = true
 }
 
+variable "monitoring_admin_username" {
+  description = "The username of the admin user in monitoring"
+  type        = string
+  default     = "admin"
+}
+
+variable "monitoring_admin_password" {
+  description = "The password of the admin user in monitoring. If not set, a password will be generated."
+  type        = string
+  default     = null
+  sensitive   = true
+  ephemeral   = true
+}
+

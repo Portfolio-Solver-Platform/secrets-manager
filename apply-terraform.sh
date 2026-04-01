@@ -8,6 +8,7 @@ if [ "$1" = "dev" ]; then
   TOKEN_NAME="${TOKEN_NAME:-dev-terraform}"
   AUTH_MANAGER_BOOTSTRAP_ADMIN_PASSWORD="${AUTH_MANAGER_BOOTSTRAP_ADMIN_PASSWORD:-admin}"
   AUTH_MANAGER_BOOTSTRAP_SERVICE_SECRET="${AUTH_MANAGER_BOOTSTRAP_SERVICE_SECRET:-admin}"
+  MONITORING_ADMIN_PASSWORD="${MONITORING_ADMIN_PASSWORD:-admin}"
 fi
 
 if [ -z "$ROOT_TOKEN" ]; then
@@ -22,3 +23,4 @@ terraform -chdir=terraform apply -auto-approve \
     -var "token_name=$TOKEN_NAME"\
     -var "auth_manager_bootstrap_admin_password=$AUTH_MANAGER_BOOTSTRAP_ADMIN_PASSWORD"\
     -var "auth_manager_bootstrap_service_secret=$AUTH_MANAGER_BOOTSTRAP_SERVICE_SECRET"\
+    -var "monitoring_admin_password=$MONITORING_ADMIN_PASSWORD"\
