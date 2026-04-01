@@ -36,3 +36,18 @@ variable "auth_manager_bootstrap_admin_password" {
   ephemeral   = true
 }
 
+variable "auth_manager_bootstrap_service_id" {
+  description = "The client ID for the bootstrap service in the auth manager"
+  type        = string
+  default     = "tofu-runner"
+}
+
+
+variable "auth_manager_bootstrap_service_secret" {
+  description = "The secret for the bootstrap service in the auth manager. If set to the empty string, a secret will be generated."
+  type        = string
+  default     = null
+  sensitive   = true
+  ephemeral   = true
+}
+

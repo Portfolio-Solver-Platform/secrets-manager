@@ -57,8 +57,8 @@ resource "vault_kv_secret_v2" "auth_manager_bootstrap_service_credentials" {
   name  = "auth-manager/bootstrap-service-credentials"
 
   data_json_wo = jsonencode({
-    clientId = "tofu-runner"
-    clientSecret = ephemeral.random_password.auth_manager_bootstrap_service.result
+    clientId = var.auth_manager_bootstrap_service_id
+    clientSecret = var.auth_manager_bootstrap_service_secret != null ? var.auth_manager_bootstrap_service_secret : ephemeral.random_password.auth_manager_bootstrap_service.result
   })
   data_json_wo_version = 1
 }
