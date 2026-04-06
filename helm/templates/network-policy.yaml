@@ -146,18 +146,18 @@ spec:
     - ports:
         - protocol: TCP
           port: {{ .Values.secretsManagerTransit.port }}
-# ---
-# # Allow external access to the transit secrets manager
-# apiVersion: networking.istio.io/v1
-# kind: ServiceEntry
-# metadata:
-#   name: secrets-manager-transit
-# spec:
-#   hosts:
-#   - {{ .Values.secretsManagerTransit.host | quote }}
-#   location: MESH_EXTERNAL
-#   ports:
-#   - number: {{ .Values.secretsManagerTransit.port }}
-#     name: tcp
-#     protocol: TCP
-#   resolution: DNS
+---
+# Allow external access to the transit secrets manager
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: secrets-manager-transit
+spec:
+  hosts:
+  - {{ .Values.secretsManagerTransit.host | quote }}
+  location: MESH_EXTERNAL
+  ports:
+  - number: {{ .Values.secretsManagerTransit.port }}
+    name: tcp
+    protocol: TCP
+  resolution: DNS
