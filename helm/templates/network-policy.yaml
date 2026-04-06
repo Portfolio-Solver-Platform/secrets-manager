@@ -142,7 +142,7 @@ spec:
           port: {{ .Values.secretsManagerTransit.port }}
 ---
 # Allow external access to the transit secrets manager
-apiVersion: networking.istio.io/v1beta1
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: secrets-manager-transit
