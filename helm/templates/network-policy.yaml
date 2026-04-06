@@ -98,7 +98,7 @@ spec:
           kubernetes.io/metadata.name: gateway
       podSelector:
         matchLabels:
-          app: gateway
+          app.kubernetes.io/name: gateway-nginx
     ports:
     - protocol: TCP
       port: 15008
