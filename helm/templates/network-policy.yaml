@@ -22,7 +22,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: keycloak
+      app.kubernetes.io/name: openbao
   policyTypes:
   - Ingress
   ingress:
