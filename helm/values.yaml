@@ -10,7 +10,7 @@ openbao:
     enabled: true
 
   injector:
-    enabled: true
+    enabled: false
     affinity: "" # We only have one node, so disable affinity rule
 
   server:
