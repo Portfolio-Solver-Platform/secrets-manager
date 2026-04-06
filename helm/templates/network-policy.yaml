@@ -85,7 +85,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-openbao-private-egress-k8s-auth
-  namespace: openbao-system
 spec:
   podSelector:
     matchLabels:
