@@ -2,6 +2,7 @@
 secretsManagerTransit:
   serviceName: secrets-manager-transit
   host: host.minikube.internal
+  port: 8200
   tokenSecret:
     enable: false # In production, the token secret should be created before running Helm
 
@@ -10,7 +11,7 @@ openbao:
     enabled: true
 
   injector:
-    enabled: true
+    enabled: false
     affinity: "" # We only have one node, so disable affinity rule
 
   server:

@@ -1,0 +1,163 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-same-namespace
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector: {}
+  egress:
+  - to:
+    - podSelector: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-tofu-runner
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: flux-system
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: tf-runner
+    ports:
+    - protocol: TCP
+      port: 15008
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns-egress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-eso-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: secrets-courier
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: external-secrets
+    ports:
+    - protocol: TCP
+      port: 15008
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-gateway-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: gateway
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: gateway-nginx
+    ports:
+    - protocol: TCP
+      port: 15008
+---
+# Not ideal to allow it send out everywhere, but network policies cannot target the K8s API consistently in any other way
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-openbao-egress-k8s-api
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao 
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+      - port: 443
+        protocol: TCP
+      - port: 8443
+        protocol: TCP
+---
+# Give it access to outside on port 8200 for auto-unseal.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-openbao-egress-external-unseal
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - protocol: TCP
+          port: {{ .Values.secretsManagerTransit.port }}
+---
+# Allow external access to the transit secrets manager
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: secrets-manager-transit
+spec:
+  hosts:
+  - {{ .Values.secretsManagerTransit.host | quote }}
+  location: MESH_EXTERNAL
+  ports:
+  - number: {{ .Values.secretsManagerTransit.port }}
+    name: tcp
+    protocol: TCP
+  resolution: DNS
