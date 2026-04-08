@@ -12,4 +12,5 @@ For production:
 - Deploy everything using infrastructure repo.
 - For the first time setup, you need to start a shell in `secrets-manager-openbao-0` and execute `bao operator init`.
   This will present you with 5 recovery keys and a root key. These need to be saved because this is the only time you will be given them.
+- The root key then needs to be passed to Terraform so it can set up the secrets. See the infrastructure repo for how to do that in a Kubernetes context.
 
