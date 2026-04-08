@@ -7,6 +7,7 @@ variable "url" {
 variable "token" {
   description = "The token for the secrets manager. If set to the empty string, the Kubernetes Service Account is used for authentication instead."
   type        = string
+  default     = ""
   sensitive   = true
   ephemeral   = true
 }
