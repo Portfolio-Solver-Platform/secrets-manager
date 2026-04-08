@@ -1,0 +1,9 @@
+secretsManagerTransit:
+  tokenSecret:
+    enable: true
+    value: dummy-value
+
+openbao:
+  server:
+    dev:
+      enabled: true # Automatic init and unseal. root token = "root"
