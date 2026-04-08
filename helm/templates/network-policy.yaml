@@ -155,6 +155,7 @@ metadata:
 spec:
   hosts:
   - {{ .Values.secretsManagerTransit.host | quote }}
+  - secrets-manager-transit.secrets-manager.svc.cluster.local
   location: MESH_EXTERNAL
   ports:
   - number: {{ .Values.secretsManagerTransit.port }}
