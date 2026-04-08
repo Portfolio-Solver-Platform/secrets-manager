@@ -155,11 +155,9 @@ metadata:
 spec:
   hosts:
   - {{ .Values.secretsManagerTransit.host | quote }}
-  addresses:
-  - 0.0.0.0/0
   location: MESH_EXTERNAL
   ports:
   - number: {{ .Values.secretsManagerTransit.port }}
     name: tcp
     protocol: TCP
-  resolution: NONE
+  resolution: DNS
