@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+TOKEN_SECRET_NAME="secrets-manager-vars"
+TOFU_RESOURCE_NAME="secrets-manager-setup"
+NAMESPACE="flux-system"
+
+set -euo pipefail
+
+if [ -z "$1" ]; then
+    echo "Error: Transit token not provided."
+    echo "Usage: $0 <transit-token>"
+    exit 1
+fi
+
+TOKEN="$1"
+
+echo "=== Creating token secret ==="
+kubectl create secret generic $TOKEN_SECRET_NAME \
+  --namespace $NAMESPACE \
+  --from-literal=token="$TOKEN"
+
+echo "=== Waiting for the tofu to be applied ==="
+kubectl wait --for=condition=Ready terraform/$TOFU_RESOURCE_NAME -n $NAMESPACE --timeout=1h
+echo "Tofu is done running."
+
+echo "=== Deleting the token secret ==="
+kubectl delete secret $TOKEN_SECRET_NAME --namespace $NAMESPACE
+echo "Deleted."
+
