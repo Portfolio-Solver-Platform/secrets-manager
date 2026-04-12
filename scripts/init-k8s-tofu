@@ -1,18 +1,36 @@
 #!/usr/bin/env bash
 
+TOKEN_SECRET_NAME="secrets-manager-vars"
+TOFU_RESOURCE_NAME="secrets-manager-setup"
+NAMESPACE="flux-system"
+
 set -euo pipefail
 
 if [ -z "$1" ]; then
-    echo "Error: Token not provided. This should be a valid token for the secrets manager, for example, the root token"
-    echo "Usage: $0 <token>"
+    echo "Error: Transit token not provided."
+    echo "Usage: $0 <transit-token>"
     exit 1
 fi
 
 TOKEN="$1"
 
-echo "Bootstrapping..."
-./scripts/bootstrap
+echo "=== Creating token secret ==="
+kubectl create secret generic "$TOKEN_SECRET_NAME" \
+  --namespace "$NAMESPACE" \
+  --from-literal=token="$TOKEN"
 
-echo "Applying transit token secret..."
-./scripts/apply-transit-token-secret "$TOKEN"
+echo "=== Waiting for the terraform resource to become available in the cluster ==="
+until kubectl get terraform/"$TOFU_RESOURCE_NAME" -n "$NAMESPACE" >/dev/null 2>&1; do
+  echo "Resource not found yet..."
+  sleep 5
+done
+echo "Resource found."
+
+echo "=== Waiting for the tofu to be applied ==="
+kubectl wait --for=condition=Ready terraform/$TOFU_RESOURCE_NAME -n $NAMESPACE --timeout=1h
+echo "Tofu is done running."
+
+echo "=== Deleting the token secret ==="
+kubectl delete secret $TOKEN_SECRET_NAME --namespace $NAMESPACE
+echo "Deleted."
 
