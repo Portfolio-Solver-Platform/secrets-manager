@@ -9,7 +9,14 @@ echo "Waiting for pod '$POD_NAME' in namespace '$NAMESPACE' to be ready..."
 while ! kubectl get pod "$POD_NAME" -n "$NAMESPACE" &> /dev/null; do
     sleep 2
 done
-kubectl wait --for=condition=Ready pod/$POD_NAME -n $NAMESPACE --timeout=-1s
+
+echo "Waiting for the pod to be running..."
+kubectl wait --for=jsonpath='{.status.phase}'=Running pod/$POD_NAME -n $NAMESPACE --timeout=120s
+
+echo "Waiting for the secrets manager to start accepting connections..."
+while ! { kubectl exec -n "$NAMESPACE" "$POD_NAME" -- bao status 2>&1 || true; } | grep -q "Initialized"; do
+    sleep 2
+done
 
 echo "Initializing secrets manager..."
 INIT_OUTPUT=$(kubectl exec -n $NAMESPACE $POD_NAME -- bao operator init)
@@ -36,5 +43,5 @@ echo "Recovery Key 5: $KEY5"
 echo "Initial Root Token: $ROOT_TOKEN"
 
 echo "=== Bootstrapping tofu ==="
-./scripts/init-k8s-tofu
+./scripts/init-k8s-tofu "$ROOT_TOKEN"
 

@@ -6,7 +6,7 @@ NAMESPACE="flux-system"
 
 set -euo pipefail
 
-if [ -z "$1" ]; then
+if [ $# -eq 0 ]; then
     echo "Error: Transit token not provided."
     echo "Usage: $0 <transit-token>"
     exit 1
