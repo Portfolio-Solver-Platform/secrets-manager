@@ -17,6 +17,8 @@ provider "vault" {
   token_name = var.token_name
   token = var.token != "" ? var.token : null
 
+  skip_child_token = true
+
   dynamic "auth_login" {
     for_each = var.token == "" ? [1] : []
     content {
