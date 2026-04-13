@@ -29,8 +29,18 @@ data "vault_policy_document" "tofu_runner_secrets_manager_rules" {
   }
 
   rule {
-    path         = "secret/*"
+    path         = "auth/kubernetes/*"
     capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+  }
+
+  rule {
+    path         = "kv/*"
+    capabilities = ["create", "read", "update", "delete", "list", "sudo"]
+  }
+
+  rule {
+    path         = "auth/token/lookup-self"
+    capabilities = ["read"]
   }
 
   rule {
