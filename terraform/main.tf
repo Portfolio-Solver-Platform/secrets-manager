@@ -17,12 +17,14 @@ provider "vault" {
   token_name = var.token_name
   token = var.token != "" ? var.token : null
 
+  skip_child_token = true
+
   dynamic "auth_login" {
     for_each = var.token == "" ? [1] : []
     content {
       path = "auth/kubernetes/login"
       parameters = {
-        role = "tf-controller-role"
+        role = local.tofu_runner_secrets_manager_role_name
         jwt  = file("/var/run/secrets/kubernetes.io/serviceaccount/token")
       }
     }

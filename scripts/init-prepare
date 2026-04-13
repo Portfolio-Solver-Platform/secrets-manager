@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ -z "$1" ]; then
+    echo "Error: Token not provided. This should be a valid token for the secrets manager, for example, the root token"
+    echo "Usage: $0 <token>"
+    exit 1
+fi
+
+TOKEN="$1"
+
+echo "Bootstrapping..."
+./scripts/bootstrap
+
+echo "Applying transit token secret..."
+./scripts/apply-transit-token-secret "$TOKEN"
+
