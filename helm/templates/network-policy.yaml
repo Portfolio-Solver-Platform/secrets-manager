@@ -94,7 +94,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-gateway-ingress
+  name: allow-nginx-gateway-ingress
 spec:
   podSelector:
     matchLabels:
@@ -109,6 +109,28 @@ spec:
       podSelector:
         matchLabels:
           app.kubernetes.io/name: gateway-nginx
+    ports:
+    - protocol: TCP
+      port: 15008
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-istio-gateway-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: openbao
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: gateway
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: gateway-istio
     ports:
     - protocol: TCP
       port: 15008
