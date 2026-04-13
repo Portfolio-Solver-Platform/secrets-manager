@@ -1,7 +1,11 @@
 
+locals {
+  tofu_runner_secrets_manager_role_name = "tofu-runner-secrets-manager-role"
+}
+
 resource "vault_kubernetes_auth_backend_role" "tofu_runner_secrets_manager_role" {
   backend                          = vault_auth_backend.kubernetes.path
-  role_name                        = "tofu-runner-secrets-manager-role"
+  role_name                        = local.tofu_runner_secrets_manager_role_name
   bound_service_account_names      = ["tofu-runner-secrets-manager"]
   bound_service_account_namespaces = ["flux-system"]
   token_policies                   = ["tofu-runner-secrets-manager-policy"]

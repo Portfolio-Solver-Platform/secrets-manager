@@ -22,7 +22,7 @@ provider "vault" {
     content {
       path = "auth/kubernetes/login"
       parameters = {
-        role = "tf-controller-role"
+        role = local.tofu_runner_secrets_manager_role_name
         jwt  = file("/var/run/secrets/kubernetes.io/serviceaccount/token")
       }
     }
