@@ -130,7 +130,7 @@ spec:
           kubernetes.io/metadata.name: gateway
       podSelector:
         matchLabels:
-          app.kubernetes.io/name: gateway-istio
+          gateway.networking.k8s.io/gateway-name: gateway
     ports:
     - protocol: TCP
       port: 15008
