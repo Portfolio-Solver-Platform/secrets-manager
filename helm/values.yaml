@@ -53,6 +53,8 @@ openbao:
             }
           }
 
+          service_registration "kubernetes" {}
+
           # Auto-unseal
           seal "transit" {
             address    = "http://secrets-manager-transit.secrets-manager.svc.cluster.local:8200"
